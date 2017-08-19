@@ -1,0 +1,25 @@
+{
+  "name": "word_game",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hamiltonmoore/word_Game.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hamiltonmoore/word_Game/issues"
+  },
+  "homepage": "https://github.com/hamiltonmoore/word_Game#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "morgan": "^1.8.2",
+    "mustache-express": "^1.2.5"
+  }
+}
