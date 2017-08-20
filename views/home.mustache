@@ -10,10 +10,22 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="wrapper">
+    <div class="header">
+        <p>Word Guess</p>
+        <p>You Have {{?}} Guesses Left</p>
+    </div>
+        <div class="container">
+        <div class="display">
+            {{#character}}
+                {{.}}
+            {{/character}} 
+        </div>
         <form action="/guess" method="POST">
+            <input type="text" name="name">
             <button type="submit">Guess!</button>
         </form>
+    </div>
     </div>
 </body>
 
