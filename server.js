@@ -35,6 +35,24 @@ app.get("/", (req, res) => {   //when root("/") is entered into the browser, it 
     res.render("home");
 })
 
+function getRandomWord() {
+    RandomWord = math.random();
+}
+
+app.post("/", (req, res) => {
+    function game() {
+        if (guess > 1) {
+            res.send("guess invalid");
+        }
+        if else (guess = 1) {
+            //see if letter matches character in word via findIndex
+        } 
+        else 
+        //send letter doesn't match 
+        //display how many guesses are left 
+    }
+})
+
 app.listen(port, () => {
     console.log(`you are on port ${port}`);
 });
