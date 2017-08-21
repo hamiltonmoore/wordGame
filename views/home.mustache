@@ -17,12 +17,10 @@
     </div>
         <div class="container">
         <div class="display">
-            {{#character}}
-                {{.}}
-            {{/character}} 
+             {{randomWord}} 
         </div>
-        <form action="/guess" method="POST">
-            <input type="text" name="name">
+        <form action="/home" method="POST">
+            <input type="text" name="guess">
             <button type="submit">Guess!</button>
         </form>
     </div>

@@ -6,12 +6,22 @@ const session = require("express-session");
 const path = require("path");
 const sessionConfig = require("./sessionConfig");
 const expressValidator = require("express-validator");
+
 const port = process.env.PORT || 8000;
-// const fs = require('file-system');
-// const words = fs
-//     .readFileSync("/usr/share/dict/words", "utf-8")
-//     .toLowerCase()
-//     .split("\n");
+//get the dictionary 
+const fs = require('fs');
+const words = fs
+    .readFileSync("/usr/share/dict/words", "utf-8")
+    .toLowerCase()
+    .split("\n");
+
+//word generator
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+var randomWord = words[getRandomInt(0, 235887)];
+console.log(randomWord);
+
 
 // const users = require("./data");
 
@@ -32,26 +42,25 @@ app.use(session(sessionConfig));
 
 app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
     console.log("1");
-    res.render("home");
+    res.render("home", { randomWord });
 })
 
-function getRandomWord() {
-    RandomWord = math.random();
-}
-
-app.post("/", (req, res) => {
-    function game() {
-        if (guess > 1) {
-            res.send("guess invalid");
-        }
-        if else (guess = 1) {
-            //see if letter matches character in word via findIndex
-        } 
-        else 
-        //send letter doesn't match 
-        //display how many guesses are left 
-    }
-})
+// app.post("/home", (req, res) => {
+//     function game() {
+//         if (guess.length == 0) {
+//             res.send("Enter a Guess");
+//         }
+//         else if (guess.length > 1) {
+//             res.send("invalid guess, too many letters");
+//         }
+//         else if (guess = findIndex.words) {
+//             res.render(display.guess. . . )
+//         }
+//         else {
+//             res.send("letter doesn't match")
+//             //display how many guesses are left 
+//         }
+//     });
 
 app.listen(port, () => {
     console.log(`you are on port ${port}`);
