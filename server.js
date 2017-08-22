@@ -39,23 +39,28 @@ var randomWord = words[getRandomInt(0, 235887)];
 console.log(randomWord);
 
 //display spaces for characters 
-// displayArray = [];
+displayArray = [];
 guessArray = [];
 //     displayArray.push(randomWord.length);
 // console.log(displayArray);
 for (let i = 0; i < randomWord.length; i++) {
     guessArray.push("__");
 }
+//don't keyboard programing (trying to write out code as you think of conditions)
+//instead comment out requirements as you go, and code each requirement
 
 //guess below needs to reference the input from the form
-app.post("/", (req, res) => {
-    let letters = displayArray.split();
-    console.log(letters);
-    if (letterGuess == randomWord.indexOf(brocoli => brocoli.displayArray == randomWord)) {
-        //find location of letter guessed
-        letterGuess = displayArray.findIndex();
-        //insert guessed letter (if correct) into displayArray in right spot
-    }
+app.post("/home", (req, res) => {
+    let letterGuess = req.body.letterGuess;
+    console.log(letterGuess);
+    let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
+    //If letter guessed exists in randomWord
+    //next: insert letter that was guessed into the location of letter
+
+    console.log("if is working");
+    letterGuess = displayArray.findIndex();
+    //insert guessed letter (if correct) into displayArray in right spot
+}
 })
 
 app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
