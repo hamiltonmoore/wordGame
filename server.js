@@ -49,9 +49,12 @@ for (let i = 0; i < randomWord.length; i++) {
 
 //guess below needs to reference the input from the form
 app.post("/", (req, res) => {
-    if (guess == indexOf(randomWord)) {
-        //display it 
-
+    let letters = displayArray.split();
+    console.log(letters);
+    if (letterGuess == randomWord.indexOf(brocoli => brocoli.displayArray == randomWord)) {
+        //find location of letter guessed
+        letterGuess = displayArray.findIndex();
+        //insert guessed letter (if correct) into displayArray in right spot
     }
 })
 
