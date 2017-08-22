@@ -15,14 +15,6 @@ const words = fs
     .toLowerCase()
     .split("\n");
 
-//word generator
-function getRandomInt(min, max) {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-}
-var randomWord = words[getRandomInt(0, 235887)];
-console.log(randomWord);
-
-
 // const users = require("./data");
 
 const app = express();
@@ -39,10 +31,36 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session(sessionConfig));
 
+//word generator
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+var randomWord = words[getRandomInt(0, 235887)];
+console.log(randomWord);
+
+//display spaces for characters 
+// displayArray = [];
+guessArray = [];
+//     displayArray.push(randomWord.length);
+// console.log(displayArray);
+for (let i = 0; i < randomWord.length; i++) {
+    guessArray.push("__");
+}
+
+//guess below needs to reference the input from the form
+app.post("/", (req, res) => {
+    if (guess == indexOf(randomWord)) {
+        //display it 
+
+    }
+})
 
 app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
     console.log("1");
-    res.render("home", { randomWord });
+    res.render("home", {
+        randomWord: randomWord,
+        guessArray: guessArray,
+    });
 })
 
 // app.post("/home", (req, res) => {
