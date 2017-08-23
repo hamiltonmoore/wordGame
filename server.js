@@ -51,20 +51,24 @@ for (let i = 0; i < randomWord.length; i++) {
 
 //guess below needs to reference the input from the form
 app.post("/home", (req, res) => {
-    let letterGuess = req.body.letterGuess;
-    console.log(letterGuess);
-    let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
+    let letterGuess = req.body.letterGuess; //this gets the letter that was guessed
+    if (randomWord.includes(letterGuess) == true) {
+        let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
+        console.log("it's there, good job");
+    }
+    else {
+        res.send("NOPE, try again")
+    }
+    //at some point, I'll need if more than 1 guess etc here
     //If letter guessed exists in randomWord
-    //next: insert letter that was guessed into the location of letter
 
-    console.log("if is working");
-    letterGuess = displayArray.findIndex();
+    //next: insert letter that was guessed into the location of letter
+    // = displayArray.findIndex();
     //insert guessed letter (if correct) into displayArray in right spot
-}
-})
+});
+
 
 app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
-    console.log("1");
     res.render("home", {
         randomWord: randomWord,
         guessArray: guessArray,
