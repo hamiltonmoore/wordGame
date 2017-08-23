@@ -52,9 +52,11 @@ for (let i = 0; i < randomWord.length; i++) {
 //guess below needs to reference the input from the form
 app.post("/home", (req, res) => {
     let letterGuess = req.body.letterGuess; //this gets the letter that was guessed
+    let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
     if (randomWord.includes(letterGuess) == true) {
-        let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
         console.log("it's there, good job");
+        guessArray.splice(locationOfLetter, 1, letterGuess);
+        //to work, pg must be refreshed, and only does 1 letter, if theres 2+ of a letter, only does once
     }
     else {
         res.send("NOPE, try again")
