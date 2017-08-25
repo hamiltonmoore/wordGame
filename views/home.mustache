@@ -13,37 +13,35 @@
     <div class="wrapper">
     <div class="header">
         <p>Word Guess</p>
-            <form action="guessForm" method="POST">
-            <input type="text" name="letter" maxlength="1">
+            <form action="startGame" method="POST">
             <button type="Submit">Play Game</button>
+            </form>
         <p>You Have {{?}} Guesses Left</p>
     </div>
         <div class="container">
         <div class="display">
-             {{randomWord}} 
-             {{guessArray}}
              {{#word}}
-             <div>
-             {{#turns}} {{.}} {{/turns}}
-             </div>
-             <div>
-             {{#display}} {{.}} {{/display}}
-             </div>
-             <div>
-             {{#wrongGuesses}} {{.}} {{/wrongGuesses}}
-             {{^wrongGuesses}} {{.}} {{/wrongGuesses}}
-             </div>
-             <div>
-             {{#correctGuesses}} {{.}} {{/correctGuesses}}
-             {{^correctGuesses}} {{.}} {{/correctGuesses}}
+                <div>
+                     {{#turns}} {{.}} {{/turns}}
+                </div>
+                <div>
+                     {{#displayArray}} {{.}} {{/displayArray}}
+                </div>
+                <div>
+                    {{#wrongGuesses}} {{.}} {{/wrongGuesses}}
+                    {{^wrongGuesses}} {{No guesses yet}} {{/wrongGuesses}}
+                </div>
+                <div>
+                    {{#correctGuesses}} {{.}} {{/correctGuesses}}
+                    {{^correctGuesses}} {{No Guesses yet}} {{/correctGuesses}}
              {{/word}}
-             </div>
         </div>
-        <div class="form">
-        <form action="/home" method="POST">
-            <input type="text" name="letterGuess">
-            <button type="submit">Guess!</button>
-        </form>
+            <div class="form">
+            <form action="/home" method="POST">
+            <input type="text" name="letterGuess" maxlength="1">
+            <button type="submit">Guess!</button> 
+            </form>
+            </div>
         </div>
     </div>
     </div>
