@@ -57,10 +57,11 @@ app.post("/home", (req, res) => {
     let game = req.session.game; //game is assigned FROM session
     let guessLetter = req.body.letterGuess // this is where the letter is 
     if (alreadyGuessed(game, guessLetter)) {
+        console.log("GOT INTO if (alreadyGuessed).....")
         saveGame(req, game, "Already guessed");
-        console.log(guessletter);
         return res.redirect("/");
     }
+    console.log("AFTER the IF (alreadyGuessed).....")
     for (i = 0; i < game.word.length; i++) {
         if (game.word.charAt(i) === guessLetter) {
             game.displayArray[i] = guessLetter;  // TODO: 
@@ -113,6 +114,10 @@ function letterNotFound(game, guessLetter) {
 }
 
 function alreadyGuessed(game, guessLetter) {
+    // console.log("game = ", game);
+    // console.log("game.wrongGuesses= ", game.wrongGuesses);
+    console.log("Wrong Guesses = ", game.wrongGuesses.indexOf(guessLetter));
+    console.log("correctGuesses = ", game.correctGuesses.indexOf(guessLetter));
     return game.wrongGuesses.indexOf(guessLetter) > -1 ||
-        game.correctGuesses.indexOf(guessLetter)
+        game.correctGuesses.indexOf(guessLetter) < -1
 }
