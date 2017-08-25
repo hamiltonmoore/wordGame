@@ -50,6 +50,29 @@ req.session.correctGuesses = [];
 req.session.turns = 8;
 res.redirect("/");
 
+wordRoutes.post("/", (req, res) => {
+    let guessLetter = req.body.letterGuess
+    if (req.session.wrongGuesses.indexOf(guessLetter) > -1 ||
+        req.session.correctGuesses.indexOf(guessLetter)) {
+        req.session.msg = "some message";
+        return res.redirect("/");
+    }
+    for (i = 0; i < req.session.word.length; i++) {
+        if (word.charAt(i) === guessLetter) {
+            display[i] = guessLetter;
+        }
+    }
+    if (word.indexOf(guessLetter) < 0) {
+        req.session.msg = "WRONG";
+        req.session.wrongGuesses.push(guessletter);
+        req.session.turns -= 1 //decrement turns
+        return res.redirect("/");
+    }
+    if (req.session.turns < 1) {
+        req.session.msg = "no more turns, game over!"
+        return res.redirect("/");
+    }
+});
 //don't keyboard programing (trying to write out code as you think of conditions)
 //instead comment out requirements as you go, and code each requirement
 
