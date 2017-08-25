@@ -35,38 +35,34 @@ app.use(session(sessionConfig));
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-var randomWord = words[getRandomInt(0, 235887)];
-console.log(randomWord);
-
-//display spaces for characters 
-displayArray = [];
-guessArray = [];
+const randomWord = words[getRandomInt(0, 235887)];
+req.session.word = randomWord;
+let displayArray = [];
+let guessArray = [];
 //     displayArray.push(randomWord.length);
 // console.log(displayArray);
 for (let i = 0; i < randomWord.length; i++) {
     guessArray.push("__");
 }
+req.session.display = displayArray;
+req.session.wrongGuesses = [];
+req.session.correctGuesses = [];
+req.session.turns = 8;
+res.redirect("/");
+
 //don't keyboard programing (trying to write out code as you think of conditions)
 //instead comment out requirements as you go, and code each requirement
 
-//guess below needs to reference the input from the form
 app.post("/home", (req, res) => {
     let letterGuess = req.body.letterGuess; //this gets the letter that was guessed
     let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
     if (randomWord.includes(letterGuess) == true) {
         console.log("it's there, good job");
         guessArray.splice(locationOfLetter, 1, letterGuess);
-        //to work, pg must be refreshed, and only does 1 letter, if theres 2+ of a letter, only does once
     }
     else {
         res.send("NOPE, try again")
     }
-    //at some point, I'll need if more than 1 guess etc here
-    //If letter guessed exists in randomWord
-
-    //next: insert letter that was guessed into the location of letter
-    // = displayArray.findIndex();
-    //insert guessed letter (if correct) into displayArray in right spot
 });
 
 

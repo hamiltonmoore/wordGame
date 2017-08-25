@@ -19,11 +19,29 @@
         <div class="display">
              {{randomWord}} 
              {{guessArray}}
+             {{#word}}
+             <div>
+             {{#turns}} {{.}} {{/turns}}
+             </div>
+             <div>
+             {{#display}} {{.}} {{/display}}
+             </div>
+             <div>
+             {{#wrongGuesses}} {{.}} {{/wrongGuesses}}
+             {{^wrongGuesses}} {{.}} {{/wrongGuesses}}
+             </div>
+             <div>
+             {{#correctGuesses}} {{.}} {{/correctGuesses}}
+             {{^correctGuesses}} {{.}} {{/correctGuesses}}
+             {{/word}}
+             </div>
         </div>
+        <div class="form">
         <form action="/home" method="POST">
             <input type="text" name="letterGuess">
             <button type="submit">Guess!</button>
         </form>
+        </div>
     </div>
     </div>
 </body>
