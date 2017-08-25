@@ -34,9 +34,9 @@ app.use(session(sessionConfig));
 //word generator
 function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+    req.session.word = randomWord;
 }
 const randomWord = words[getRandomInt(0, 235887)];
-req.session.word = randomWord;
 let displayArray = [];
 let guessArray = [];
 //     displayArray.push(randomWord.length);
@@ -44,13 +44,15 @@ let guessArray = [];
 for (let i = 0; i < randomWord.length; i++) {
     guessArray.push("__");
 }
-req.session.display = displayArray;
-req.session.wrongGuesses = [];
-req.session.correctGuesses = [];
-req.session.turns = 8;
-res.redirect("/");
+app.get("gameForm", function (req, res) {
+    req.session.display = displayArray;
+    req.session.wrongGuesses = [];
+    req.session.correctGuesses = [];
+    req.session.turns = 8;
+    res.redirect("/");
+});
 
-wordRoutes.post("/", (req, res) => {
+app.post("/", (req, res) => {
     let guessLetter = req.body.letterGuess
     if (req.session.wrongGuesses.indexOf(guessLetter) > -1 ||
         req.session.correctGuesses.indexOf(guessLetter)) {
@@ -88,30 +90,12 @@ app.post("/home", (req, res) => {
     }
 });
 
-
 app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
     res.render("home", {
         randomWord: randomWord,
         guessArray: guessArray,
     });
 })
-
-// app.post("/home", (req, res) => {
-//     function game() {
-//         if (guess.length == 0) {
-//             res.send("Enter a Guess");
-//         }
-//         else if (guess.length > 1) {
-//             res.send("invalid guess, too many letters");
-//         }
-//         else if (guess = findIndex.words) {
-//             res.render(display.guess. . . )
-//         }
-//         else {
-//             res.send("letter doesn't match")
-//             //display how many guesses are left 
-//         }
-//     });
 
 app.listen(port, () => {
     console.log(`you are on port ${port}`);
