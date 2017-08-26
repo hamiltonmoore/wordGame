@@ -79,13 +79,10 @@ app.post("/guess", (req, res) => {
     if (game.turns < 1) {
         saveGame(req, game, "no more turns, game over!");
     }
-    return res.render("home", game);
+    return res.render("home", game); //this fixed my problem: I changed from redirect, to render and passed through the session data to return to the page
 });
-
-
-// app.get("/", (req, res) => {
-//     return res.render("home", game);  
-
+//redirect takes user to another page a RESTARTS the request
+//render simply takes them to the page, and loadst he data, in this case the session
 function saveGame(req, game, msg) {
     game.msg = msg;
     req.session.game = game;
@@ -96,32 +93,9 @@ function letterNotFound(game, guessLetter) {
 }
 
 function alreadyGuessed(game, guessLetter) {
-    // console.log("game = ", game);
-    // console.log("game.wrongGuesses= ", game.wrongGuesses);
     return (game.wrongGuesses.indexOf(guessLetter) > -1 ||
         game.correctGuesses.indexOf(guessLetter) < -1)
 }
 app.listen(port, () => {
     console.log(`you are on port ${port}`);
-
-
-    //don't keyboard programing (trying to write out code as you think of conditions)
-    //instead comment out requirements as you go, and code each requirement
-
-    // app.post("/home", (req, res) => {
-    //     if (randomWord.includes(letterGuess) == true) {
-    //         console.log("it's there, good job");
-    //         guessArray.splice(locationOfLetter, 1, letterGuess);
-    //     }
-    //     else {
-    //         res.send("NOPE, try again")
-    //     }
-    // });
-
-    // app.get("/", (req, res) => {  
-    //     res.render("home", {
-    //         randomWord: randomWord,
-    //         guessArray: guessArray,
-    //     });
-    // })
 });
