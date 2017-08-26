@@ -68,8 +68,13 @@ app.post("/guess", (req, res) => {
     // if (randomWord.includes(guessLetter) == true) {
     //     game.displayArray.splice(locationOfLetter, 1, guessLetter);
     // }
+    console.log(randomWord);
+    console.log(game.displayArray);
+    if (game.displayArray.join('') == randomWord) {
+        res.send("You've Won!")
+    }
+
     if (game.turns < 1) {
-        console.log("can you see me?");
         res.redirect("/")
         saveGame(req, game, "no more turns, game over!");
     }
