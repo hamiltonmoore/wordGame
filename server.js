@@ -30,17 +30,14 @@ app.use(logger("dev"));
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session(sessionConfig));
 
-//word generator
-
-
-//loop through word and push __ per length 
+function getRandomInt(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+}
+let randomWord = words[getRandomInt(0, words.length - 1)];
 
 app.get("/", function (req, res) {
-    function getRandomInt(min, max) {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
     let game = {};
-    game.word = words[getRandomInt(0, words.length - 1)];
+    game.word = randomWord;
     game.displayArray = [];
     game.wrongGuesses = [];
     game.correctGuesses = [];
@@ -53,56 +50,39 @@ app.get("/", function (req, res) {
     return res.render("home", game); //don't pass the session
 });
 //this stores the guess and compares it to the random word
-app.post("/home", (req, res) => {
+app.post("/guess", (req, res) => {
     let game = req.session.game; //game is assigned FROM session
     let guessLetter = req.body.letterGuess // this is where the letter is 
     if (alreadyGuessed(game, guessLetter)) {
         console.log("GOT INTO if (alreadyGuessed).....")
         saveGame(req, game, "Already guessed");
-        return res.redirect("/");
+        // return res.redirect("/");
     }
+    // game.displayArray = [];
+
     console.log("AFTER the IF (alreadyGuessed).....")
-    for (i = 0; i < game.word.length; i++) {
-        if (game.word.charAt(i) === guessLetter) {
-            game.displayArray[i] = guessLetter;  // TODO: 
-        }
+    // for (i = 0; i < game.word.length; i++) {
+    //     if (game.word.charAt(i) === guessLetter) {
+    //         game.displayArray[i] = guessLetter;
+
+    let locationOfLetter = randomWord.indexOf(guessLetter) //location of letter
+    if (randomWord.includes(letterGuess) == true) {
+        game.displayArray.splice(locationOfLetter, 1, letterGuess);
+        console.log(game.displayArray);
     }
+}
     if (letterNotFound(game, guessLetter)) {
-        game.wrongGuesses.push(guessletter);
-        game.turns -= 1 //decrement turns
-        saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
-        return res.redirect("/");
-    }
-    if (game.turns < 1) {
-        saveGame(req, game, "no more turns, game over!");
-        return res.redirect("/");
-    }
-});
-//don't keyboard programing (trying to write out code as you think of conditions)
-//instead comment out requirements as you go, and code each requirement
-
-// app.post("/home", (req, res) => {
-//     let letterGuess = req.body.letterGuess; //this gets the letter that was guessed
-//     let locationOfLetter = randomWord.indexOf(letterGuess) //location of letter
-//     if (randomWord.includes(letterGuess) == true) {
-//         console.log("it's there, good job");
-//         guessArray.splice(locationOfLetter, 1, letterGuess);
-//     }
-//     else {
-//         res.send("NOPE, try again")
-//     }
-// });
-
-// app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
-//     res.render("home", {
-//         randomWord: randomWord,
-//         guessArray: guessArray,
-//     });
-// })
-
-app.listen(port, () => {
-    console.log(`you are on port ${port}`);
-});
+    game.wrongGuesses.push(guessLetter);
+    game.turns -= 1 //decrement turns
+    saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
+    // return res.redirect("/");
+}
+if (game.turns < 1) {
+    saveGame(req, game, "no more turns, game over!");
+    // return res.redirect("/");
+}
+return res.redirect("/");
+    });
 
 function saveGame(req, game, msg) {
     game.msg = msg;
@@ -116,8 +96,30 @@ function letterNotFound(game, guessLetter) {
 function alreadyGuessed(game, guessLetter) {
     // console.log("game = ", game);
     // console.log("game.wrongGuesses= ", game.wrongGuesses);
-    console.log("Wrong Guesses = ", game.wrongGuesses.indexOf(guessLetter));
-    console.log("correctGuesses = ", game.correctGuesses.indexOf(guessLetter));
-    return game.wrongGuesses.indexOf(guessLetter) > -1 ||
-        game.correctGuesses.indexOf(guessLetter) < -1
+    return (game.wrongGuesses.indexOf(guessLetter) > -1 ||
+        game.correctGuesses.indexOf(guessLetter) < -1)
 }
+app.listen(port, () => {
+    console.log(`you are on port ${port}`);
+
+
+    //don't keyboard programing (trying to write out code as you think of conditions)
+    //instead comment out requirements as you go, and code each requirement
+
+    // app.post("/home", (req, res) => {
+    //     if (randomWord.includes(letterGuess) == true) {
+    //         console.log("it's there, good job");
+    //         guessArray.splice(locationOfLetter, 1, letterGuess);
+    //     }
+    //     else {
+    //         res.send("NOPE, try again")
+    //     }
+    // });
+
+    // app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
+    //     res.render("home", {
+    //         randomWord: randomWord,
+    //         guessArray: guessArray,
+    //     });
+    // })
+});

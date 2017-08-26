@@ -13,7 +13,7 @@
     <div class="wrapper">
     <div class="header">
         <p>Word Guess</p>
-        <p>You Have {{?}} Guesses Left</p>
+        <p>You Have {{turns}} Guesses Left</p>
     </div>
         <div class="container">
         <div class="display">
@@ -34,7 +34,7 @@
              {{/word}}
         </div>
             <div class="form">
-            <form action="/home" method="POST">
+            <form action="/guess" method="POST">
             <input type="text" name="letterGuess" maxlength="1">
             <button type="submit">Guess!</button> 
             </form>
