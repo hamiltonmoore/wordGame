@@ -55,10 +55,9 @@ app.post("/guess", (req, res) => {
     let game = req.session.game; //game is assigned FROM session
     let guessLetter = req.body.letterGuess // this is where the letter is 
     if (alreadyGuessed(game, guessLetter)) {
-        console.log("GOT INTO if (alreadyGuessed).....")
+
         saveGame(req, game, "Already guessed");
     }
-
     for (i = 0; i < game.word.length; i++) {
         if (game.word.charAt(i) === guessLetter) {
             game.displayArray[i] = guessLetter;
@@ -69,15 +68,17 @@ app.post("/guess", (req, res) => {
     // if (randomWord.includes(guessLetter) == true) {
     //     game.displayArray.splice(locationOfLetter, 1, guessLetter);
     // }
+    if (game.turns < 1) {
+        console.log("can you see me?");
+        res.redirect("/")
+        saveGame(req, game, "no more turns, game over!");
+    }
 
     if (letterNotFound(game, guessLetter)) {
         game.wrongGuesses.push(guessLetter);
         game.turns -= 1 //decrement turns
         saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
         // return res.redirect("/");
-    }
-    if (game.turns < 1) {
-        saveGame(req, game, "no more turns, game over!");
     }
     return res.render("home", game); //this fixed my problem: I changed from redirect, to render and passed through the session data to return to the page
 });
