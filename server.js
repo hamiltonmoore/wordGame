@@ -34,6 +34,7 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 let randomWord = words[getRandomInt(0, words.length - 1)];
+console.log(randomWord);
 
 app.get("/", function (req, res) {
     let game = {};
@@ -56,33 +57,34 @@ app.post("/guess", (req, res) => {
     if (alreadyGuessed(game, guessLetter)) {
         console.log("GOT INTO if (alreadyGuessed).....")
         saveGame(req, game, "Already guessed");
+    }
+
+    for (i = 0; i < game.word.length; i++) {
+        if (game.word.charAt(i) === guessLetter) {
+            game.displayArray[i] = guessLetter;
+            console.log("this is the array: ", game.displayArray);
+        }
+    }
+    // let locationOfLetter = randomWord.indexOf(guessLetter) //location of letter
+    // if (randomWord.includes(guessLetter) == true) {
+    //     game.displayArray.splice(locationOfLetter, 1, guessLetter);
+    // }
+
+    if (letterNotFound(game, guessLetter)) {
+        game.wrongGuesses.push(guessLetter);
+        game.turns -= 1 //decrement turns
+        saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
         // return res.redirect("/");
     }
-    // game.displayArray = [];
-
-    console.log("AFTER the IF (alreadyGuessed).....")
-    // for (i = 0; i < game.word.length; i++) {
-    //     if (game.word.charAt(i) === guessLetter) {
-    //         game.displayArray[i] = guessLetter;
-
-    let locationOfLetter = randomWord.indexOf(guessLetter) //location of letter
-    if (randomWord.includes(letterGuess) == true) {
-        game.displayArray.splice(locationOfLetter, 1, letterGuess);
-        console.log(game.displayArray);
+    if (game.turns < 1) {
+        saveGame(req, game, "no more turns, game over!");
     }
-}
-    if (letterNotFound(game, guessLetter)) {
-    game.wrongGuesses.push(guessLetter);
-    game.turns -= 1 //decrement turns
-    saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
-    // return res.redirect("/");
-}
-if (game.turns < 1) {
-    saveGame(req, game, "no more turns, game over!");
-    // return res.redirect("/");
-}
-return res.redirect("/");
-    });
+    return res.render("home", game);
+});
+
+
+// app.get("/", (req, res) => {
+//     return res.render("home", game);  
 
 function saveGame(req, game, msg) {
     game.msg = msg;
@@ -116,7 +118,7 @@ app.listen(port, () => {
     //     }
     // });
 
-    // app.get("/", (req, res) => {   //when root("/") is entered into the browser, it requests a response (????)
+    // app.get("/", (req, res) => {  
     //     res.render("home", {
     //         randomWord: randomWord,
     //         guessArray: guessArray,
