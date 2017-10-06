@@ -1,8 +1,5 @@
-.header {
+.display {
     display: flex;
-    flex-direction: row;
-}
-
-p {
-    display: flex
+    justify-content: center;
+    flex-direction: column;
 }

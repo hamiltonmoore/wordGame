@@ -7,14 +7,11 @@ const path = require("path");
 const sessionConfig = require("./sessionConfig");
 const expressValidator = require("express-validator");
 const port = process.env.PORT || 8000;
-//get the dictionary 
 const fs = require('fs');
 const words = fs
     .readFileSync("/usr/share/dict/words", "utf-8")
     .toLowerCase()
     .split("\n");
-
-// const users = require("./data");
 
 const app = express();
 
@@ -46,9 +43,8 @@ app.get("/", function (req, res) {
     for (let i = 0; i < game.word.length; i++) {
         game.displayArray.push("__");
     }
-    console.log("turns = ", game.turns);
     req.session.game = game;
-    return res.render("home", game); //don't pass the session
+    return res.render("home", game);
 });
 //this stores the guess and compares it to the random word
 app.post("/guess", (req, res) => {
@@ -57,17 +53,12 @@ app.post("/guess", (req, res) => {
     if (alreadyGuessed(game, guessLetter)) {
 
         saveGame(req, game, "Already guessed");
-    }
+    };
     for (i = 0; i < game.word.length; i++) {
         if (game.word.charAt(i) === guessLetter) {
             game.displayArray[i] = guessLetter;
-            console.log("this is the array: ", game.displayArray);
         }
     }
-    // let locationOfLetter = randomWord.indexOf(guessLetter) //location of letter
-    // if (randomWord.includes(guessLetter) == true) {
-    //     game.displayArray.splice(locationOfLetter, 1, guessLetter);
-    // }
 
     if (game.displayArray.join('') == randomWord) {
         res.send("You've Won!")
@@ -81,11 +72,11 @@ app.post("/guess", (req, res) => {
         game.wrongGuesses.push(guessLetter);
         game.turns -= 1 //decrement turns
         saveGame(req, game, "WRONG"); //setting session game = to local game/game is put into session
-        // return res.redirect("/");
+
     }
-    return res.render("home", game); //this fixed my problem: I changed from redirect, to render and passed through the session data to return to the page
+    return res.render("home", game);
 });
-//redirect takes user to another page a RESTARTS the request
+
 //render simply takes them to the page, and loadst he data, in this case the session
 function saveGame(req, game, msg) {
     game.msg = msg;
@@ -102,4 +93,4 @@ function alreadyGuessed(game, guessLetter) {
 }
 app.listen(port, () => {
     console.log(`you are on port ${port}`);
-});
+}); 
