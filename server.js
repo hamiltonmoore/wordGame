@@ -31,7 +31,6 @@ function getRandomInt(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 let randomWord = words[getRandomInt(0, words.length - 1)];
-console.log(randomWord);
 
 app.get("/", function (req, res) {
     let game = {};
